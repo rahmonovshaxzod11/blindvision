@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blind Vision - AI asosida ishlovchi aqlli ko'zoynak</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Asosiy CSS sozlamalari */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --secondary: #34a853;
+            --accent: #ea4335;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --text: #3c4043;
+            --gray: #dadce0;
+        }
+        
+        body {
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header va navigatsiya */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+            font-size: 28px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .logo-text span {
+            color: var(--primary);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        /* Hero bo'limi */
+        .hero {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            background-color: #2e8b57;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-image {
+            text-align: center;
+            position: relative;
+        }
+        
+        .glasses-img {
+            max-width: 100%;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Xususiyatlar bo'limi */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* Versiyalar bo'limi */
+        .versions {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .version-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .version-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .version-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .version-header h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .version-features {
+            padding: 30px;
+            list-style-type: none;
+        }
+        
+        .version-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .version-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        /* Video demo bo'limi */
+        .demo {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .demo-video {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .video-placeholder {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        /* How it works bo'limi */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            position: relative;
+        }
+        
+        .step {
+            text-align: center;
+            width: 22%;
+            position: relative;
+            padding-bottom: 30px;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        .step h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* Call to action bo'limi */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* Responsive dizayn */
+        @media (max-width: 992px) {
+            .hero-content, .demo-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 36px;
+            }
+            
+            .step {
+                width: 48%;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .step {
+                width: 100%;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header va navigatsiya -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-glasses"></i>
+                </div>
+                <div class="logo-text"><span>Blind Vision</span></div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Asosiy</a></li>
+                <li><a href="#features" class="nav-link">Xususiyatlar</a></li>
+                <li><a href="#versions" class="nav-link">Versiyalar</a></li>
+                <li><a href="#demo" class="nav-link">Video Demo</a></li>
+                <li><a href="#how-it-works" class="nav-link">Qanday Ishlasin</a></li>
+                <li><a href="#contact" class="nav-link">Aloqa</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero bo'limi -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Ko'zi ojizlar uchun AI asosida ishlovchi aqlli ko'zoynak</h1>
+                <p>Blind Vision - bu sun'iy intellekt asosida ishlovchi aqlli ko'zoynak bo'lib, ko'zi ojiz va zaif ko'ruvchi insonlarga mustaqil harakatlanish, o'qish va kundalik vazifalarni bajarishda yordam beradi.</p>
+                <a href="#contact" class="cta-button">Buyurtma berish</a>
+            </div>
+            <div class="hero-image">
+                <div class="glasses-img">
+                    <i class="fas fa-glasses" style="font-size: 300px; opacity: 0.9;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Xususiyatlar bo'limi -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Asosiy Xususiyatlar</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Atrof-muhitni Tanish</h3>
+                    <p>Atrof-muhitdagi odamlar, ob'ektlar, zinapoyalar, eshiklar va to'siqlarni tanib oladi va audio orqali ogohlantiradi.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-traffic-light"></i>
+                    </div>
+                    <h3>Svetafor Ranglarini Ajratish</h3>
+                    <p>Svetafor ranglarini tanib, foydalanuvchiga xabar beradi. Qizil, sariq va yashil ranglarni aniqlay oladi.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <h3>Matn O'qish</h3>
+                    <p>Kitoblar, jurnallar, bannerlar, yozuvlar va hattoki telefon yoki kompyuter ekranidagi matnlarni o'qiydi.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Pulni Tanish</h3>
+                    <p>Turli valyutadagi pul banknotlarini tanib, qiymatini audio orqali aytib beradi. To'lov jarayonini osonlashtiradi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Versiyalar bo'limi -->
+    <section class="versions" id="versions">
+        <div class="container">
+            <h2 class="section-title">Versiyalar</h2>
+            <div class="versions-grid">
+                <div class="version-card">
+                    <div class="version-header" style="background-color: #1a73e8;">
+                        <h3>Basic</h3>
+                        <p>Asosiy xususiyatlar</p>
+                    </div>
+                    <ul class="version-features">
+                        <li>Atrof-muhit ob'ektlarini tanib olish</li>
+                        <li>Svetafor ranglarini ajratish</li>
+                        <li>Zinapoyalar va to'siqlar haqida ogohlantirish</li>
+                        <li>Ovozli navigatsiya</li>
+                        <li>8 soatlik batareya quvvati</li>
+                    </ul>
+                </div>
+                
+                <div class="version-card">
+                    <div class="version-header" style="background-color: #34a853;">
+                        <h3>Pro</h3>
+                        <p>To'lov tizimi bilan</p>
+                    </div>
+                    <ul class="version-features">
+                        <li>Basic versiyaning barcha xususiyatlari</li>
+                        <li>Pul banknotlarini tanib olish</li>
+                        <li>30 dan ortiq valyutani taniydi</li>
+                        <li>To'lovni tekshirish tizimi</li>
+                        <li>10 soatlik batareya quvvati</li>
+                    </ul>
+                </div>
+                
+                <div class="version-card">
+                    <div class="version-header" style="background-color: #ea4335;">
+                        <h3>Education</h3>
+                        <p>Ta'lim uchun</p>
+                    </div>
+                    <ul class="version-features">
+                        <li>Pro versiyaning barcha xususiyatlari</li>
+                        <li>Matnlarni o'qish va audio formatga o'tkazish</li>
+                        <li>Telefon/kompyuter ekranidagi matnlarni o'qish</li>
+                        <li>20 tilni qo'llab-quvvatlaydi</li>
+                        <li>12 soatlik batareya quvvati</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video demo bo'limi -->
+    <section class="demo" id="demo">
+        <div class="container demo-container">
+            <div class="demo-video">
+                <div class="video-placeholder">
+                    <div>
+                        <i class="fas fa-play-circle" style="font-size: 60px; margin-bottom: 20px;"></i>
+                        <p>Blind Vision demo video</p>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-text">
+                <h2 class="section-title" style="text-align: left;">Qanday Ishlasin</h2>
+                <p>Blind Vision kamera va quloqchinlardan iborat. Kamera atrof-muhitni kuzatib turib, AI tizimi tasvirlarni tahlil qiladi va natijani audio shaklda foydalanuvchiga yetkazadi.</p>
+                <p>Tizim offline ham ishlay oladi, internet talab qilmaydi. Barcha hisoblash jarayonlari ko'zoynakdagi mikroprotsessorda amalga oshiriladi.</p>
+                <a href="#contact" class="cta-button" style="margin-top: 20px;">Demo so'rab qoldiring</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Qanday ishlashi bo'limi -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Qanday Ishlasin</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Kamera orqali tasvir olish</h4>
+                    <p>Ko'zoynakdagi kamera atrof-muhitni doimiy ravishda kuzatib turib, tasvirlarni qayta ishlash uchun yuboradi.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>AI tizimi tahlil qiladi</h4>
+                    <p>Sun'iy intellekt tasvirdagi ob'ektlarni aniqlaydi va ular haqida ma'lumot tayyorlaydi.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Matnni audio formatga o'tkazish</h4>
+                    <p>Tahlil qilingan ma'lumot matn shaklida audio formatga o'tkaziladi.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Quloqchinlar orqali yetkazish</h4>
+                    <p>Tayyor audio foydalanuvchiga quloqchinlar orqali yetkaziladi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to action bo'limi -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Blind Visionni Sotib Oling</h2>
+            <p>Ko'zi ojiz yoki zaif ko'ruvchi sevgan insoningiz uchun mustaqillik sovg'asini qiling. Biz bilan bog'laning va bepul demo dars o'tkazamiz.</p>
+            <a href="#contact-form" class="cta-button">Bepul Konsultatsiya</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Blind Vision</h3>
+                    <p>Ko'zi ojiz va zaif ko'ruvchi insonlarga mustaqillik va yangi imkoniyatlar beruvchi texnologik yechim.</p>
+                    <div style="margin-top: 20px;">
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-telegram"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Tez Havolalar</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Asosiy</a></li>
+                        <li><a href="#features">Xususiyatlar</a></li>
+                        <li><a href="#versions">Versiyalar</a></li>
+                        <li><a href="#demo">Demo Video</a></li>
+                        <li><a href="#how-it-works">Qanday Ishlasin</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Aloqa Ma'lumotlari</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Samarqamd viloyati Samarqand shahar</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +998 886115686</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> info@bldvision.uz</li>
+                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Dushanba - Juma, 9:00 - 18:00</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Yangiliklarga Obuna Bo'ling</h3>
+                    <p>Yangi xususiyatlar va chegirmalar haqida birinchi bo'lib biling.</p>
+                    <form id="subscribeForm" style="margin-top: 15px;">
+                        <input type="email" placeholder="Email manzilingiz" style="width: 100%; padding: 12px; border-radius: 5px; border: none; margin-bottom: 10px;">
+                        <button type="submit" class="cta-button" style="width: 100%; padding: 12px;">Obuna bo'lish</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Blind Vision. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobil menyuni boshqarish
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Navbar linklarini bosganda mobil menyuni yopish
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Yumshoq scroll effekti
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Obuna formasi
+        const subscribeForm = document.getElementById('subscribeForm');
+        subscribeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('input[type="email"]');
+            if(emailInput.value) {
+                alert('Obunangiz qabul qilindi! Rahmat.');
+                emailInput.value = '';
+            }
+        });
+        
+        // CTA tugmalariga bosganda kontakt bo'limiga o'tish
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#contact' || this.getAttribute('href') === '#contact-form') {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    window.scrollTo({
+                        top: contactSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Scroll paytida navbar effekti
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
