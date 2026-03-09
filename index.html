@@ -1,799 +1,947 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blind Vision - AI asosida ishlovchi aqlli ko'zoynak</title>
+    <title>Blind Vision | Aqlli ko'zoynaklar</title>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Asosiy CSS sozlamalari */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        :root {
-            --primary: #1a73e8;
-            --secondary: #34a853;
-            --accent: #ea4335;
-            --dark: #202124;
-            --light: #f8f9fa;
-            --text: #3c4043;
-            --gray: #dadce0;
+
+        html {
+            scroll-behavior: smooth;
         }
-        
+
         body {
-            color: var(--text);
-            line-height: 1.6;
-            background-color: var(--light);
+            background: #0a0f1e;
+            color: #fff;
+            overflow-x: hidden;
         }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Header va navigatsiya */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            right: 30px;
             z-index: 1000;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 8px 15px;
+            display: flex;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        
-        .header-container {
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 30px;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            background: #4a90e2;
+            box-shadow: 0 4px 15px rgba(74,144,226,0.4);
+        }
+
+        /* Navigation */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 999;
+            background: rgba(10,15,30,0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
-        .logo-icon {
-            color: var(--primary);
+
+        .logo img {
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .logo span {
             font-size: 28px;
-        }
-        
-        .logo-text {
-            font-size: 24px;
             font-weight: 700;
-            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .logo-text span {
-            color: var(--primary);
-        }
-        
-        .nav-menu {
+
+        .nav-links {
             display: flex;
-            list-style: none;
-            gap: 30px;
+            gap: 40px;
         }
-        
-        .nav-link {
+
+        .nav-links a {
+            color: #fff;
             text-decoration: none;
-            color: var(--text);
             font-weight: 500;
-            transition: color 0.3s;
+            transition: 0.3s;
         }
-        
-        .nav-link:hover {
-            color: var(--primary);
+
+        .nav-links a:hover {
+            color: #4a90e2;
         }
-        
-        .mobile-menu-btn {
-            display: none;
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: var(--dark);
-            cursor: pointer;
-        }
-        
-        /* Hero bo'limi */
+
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
-            color: white;
-            padding: 100px 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
+            flex: 1;
+            z-index: 2;
         }
-        
-        .hero-text h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero-text p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: white;
-            padding: 15px 30px;
+
+        .hero-badge {
+            background: rgba(74,144,226,0.2);
+            color: #4a90e2;
+            padding: 8px 20px;
             border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
+            display: inline-block;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 1px solid rgba(74,144,226,0.3);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
             font-size: 18px;
-            transition: all 0.3s;
+            color: #b0b9d6;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
             border: none;
             cursor: pointer;
+            font-size: 16px;
         }
-        
-        .cta-button:hover {
-            background-color: #2e8b57;
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(102,126,234,0.6);
         }
-        
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .btn-outline:hover {
+            border-color: #4a90e2;
+            background: rgba(74,144,226,0.1);
+        }
+
         .hero-image {
-            text-align: center;
+            flex: 1;
             position: relative;
+            z-index: 2;
         }
-        
-        .glasses-img {
-            max-width: 100%;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-            animation: float 3s ease-in-out infinite;
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            animation: float 6s ease-in-out infinite;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        
+
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-        
-        /* Xususiyatlar bo'limi */
-        .features {
-            padding: 100px 0;
-            background-color: white;
+
+        /* Video Section */
+        .video-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, #0a0f1e 0%, #141b2b 100%);
         }
-        
+
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 100px 50px;
+            background: #141b2b;
+        }
+
         .section-title {
             text-align: center;
-            font-size: 36px;
-            margin-bottom: 60px;
-            color: var(--dark);
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            background-color: var(--primary);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        
-        .feature-icon {
             font-size: 48px;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-        
-        .feature-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        /* Versiyalar bo'limi */
-        .versions {
-            padding: 100px 0;
-            background-color: #f8f9fa;
-        }
-        
-        .versions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .version-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-        
-        .version-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .version-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .version-header h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        
-        .version-features {
-            padding: 30px;
-            list-style-type: none;
-        }
-        
-        .version-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .version-features li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: bold;
-        }
-        
-        /* Video demo bo'limi */
-        .demo {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .demo-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        
-        .demo-video {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .video-placeholder {
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-        }
-        
-        /* How it works bo'limi */
-        .how-it-works {
-            padding: 100px 0;
-            background-color: #f8f9fa;
-        }
-        
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            position: relative;
-        }
-        
-        .step {
-            text-align: center;
-            width: 22%;
-            position: relative;
-            padding-bottom: 30px;
-        }
-        
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0 auto 20px;
-        }
-        
-        .step h4 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        /* Call to action bo'limi */
-        .cta-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
-            color: white;
-            text-align: center;
-        }
-        
-        .cta-section h2 {
-            font-size: 36px;
+            font-weight: 700;
             margin-bottom: 20px;
         }
-        
-        .cta-section p {
+
+        .section-subtitle {
+            text-align: center;
+            color: #b0b9d6;
             font-size: 18px;
             max-width: 700px;
-            margin: 0 auto 40px;
-            opacity: 0.9;
+            margin: 0 auto 60px;
         }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 70px 0 30px;
-        }
-        
-        .footer-content {
+
+        .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        .footer-column h3 {
-            font-size: 20px;
-            margin-bottom: 25px;
+
+        .product-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 40px;
+            transition: 0.3s;
             position: relative;
-            padding-bottom: 10px;
+            overflow: hidden;
         }
-        
-        .footer-column h3:after {
-            content: '';
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #4a90e2;
+            box-shadow: 0 20px 40px rgba(74,144,226,0.2);
+        }
+
+        .product-badge {
             position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 3px;
-            background-color: var(--primary);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-links a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #333;
-            color: #aaa;
+            top: 20px;
+            right: 20px;
+            background: #4a90e2;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: 600;
             font-size: 14px;
         }
-        
-        /* Responsive dizayn */
-        @media (max-width: 992px) {
-            .hero-content, .demo-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .hero-text h1 {
-                font-size: 36px;
-            }
-            
-            .step {
-                width: 48%;
-                margin-bottom: 30px;
-            }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
         }
-        
+
+        .product-icon i {
+            font-size: 40px;
+        }
+
+        .product-card h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .product-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .product-features li {
+            margin: 10px 0;
+            color: #b0b9d6;
+        }
+
+        .product-features i {
+            color: #4a90e2;
+            margin-right: 10px;
+        }
+
+        .product-price {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .product-price span {
+            font-size: 16px;
+            color: #b0b9d6;
+            font-weight: 400;
+        }
+
+        /* Survey Section */
+        .survey {
+            padding: 100px 50px;
+            background: #0a0f1e;
+        }
+
+        .survey-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 40px;
+            padding: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #b0b9d6;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            color: #fff;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .form-group select option {
+            background: #141b2b;
+            color: #fff;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 30px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 400;
+        }
+
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .price-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .price-option {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .price-option:hover {
+            background: rgba(74,144,226,0.2);
+            border-color: #4a90e2;
+        }
+
+        .price-option.selected {
+            background: #4a90e2;
+            border-color: #4a90e2;
+        }
+
+        .price-option input[type="radio"] {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #141b2b;
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #4a90e2;
+            transform: translateY(-3px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #141b2b;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-content i {
+            font-size: 70px;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #b0b9d6;
+            margin-bottom: 25px;
+        }
+
+        .modal-btn {
+            padding: 12px 35px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-btn:hover {
+            background: #357abd;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                flex-direction: column;
+            nav {
                 padding: 20px;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
             }
             
-            .nav-menu.active {
-                display: flex;
+            .nav-links {
+                display: none;
             }
             
-            .mobile-menu-btn {
-                display: block;
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 100px 20px;
             }
             
-            .step {
-                width: 100%;
+            .hero h1 {
+                font-size: 40px;
             }
             
-            .section-title {
-                font-size: 30px;
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .survey-container {
+                padding: 30px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .price-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .lang-switcher {
+                top: 10px;
+                right: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header va navigatsiya -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-glasses"></i>
-                </div>
-                <div class="logo-text"><span>Blind Vision</span></div>
-            </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Asosiy</a></li>
-                <li><a href="#features" class="nav-link">Xususiyatlar</a></li>
-                <li><a href="#versions" class="nav-link">Versiyalar</a></li>
-                <li><a href="#demo" class="nav-link">Video Demo</a></li>
-                <li><a href="#how-it-works" class="nav-link">Qanday Ishlasin</a></li>
-                <li><a href="#contact" class="nav-link">Aloqa</a></li>
-            </ul>
-        </div>
-    </header>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="changeLanguage('uz')">O'zbek</button>
+        <button class="lang-btn" onclick="changeLanguage('ru')">Русский</button>
+        <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+    </div>
 
-    <!-- Hero bo'limi -->
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/rahmonovshaxzod11/blindvision/master/logo_blindvision.jpg" alt="Blind Vision Logo">
+            <span>Blind Vision</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" data-uz="Bosh sahifa" data-ru="Главная" data-en="Home">Bosh sahifa</a>
+            <a href="#video" data-uz="Video" data-ru="Видео" data-en="Video">Video</a>
+            <a href="#products" data-uz="Mahsulotlar" data-ru="Продукты" data-en="Products">Mahsulotlar</a>
+            <a href="#survey" data-uz="So'rovnoma" data-ru="Анкета" data-en="Survey">So'rovnoma</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <h1>Ko'zi ojizlar uchun AI asosida ishlovchi aqlli ko'zoynak</h1>
-                <p>Blind Vision - bu sun'iy intellekt asosida ishlovchi aqlli ko'zoynak bo'lib, ko'zi ojiz va zaif ko'ruvchi insonlarga mustaqil harakatlanish, o'qish va kundalik vazifalarni bajarishda yordam beradi.</p>
-                <a href="#contact" class="cta-button">Buyurtma berish</a>
+        <div class="hero-content">
+            <div class="hero-badge">AI Technology</div>
+            <h1>
+                <span data-uz="Dunyoni" data-ru="Мир" data-en="World">Dunyoni</span><br>
+                <span data-uz="yangi ko'z bilan" data-ru="новыми глазами" data-en="with new eyes">yangi ko'z bilan</span><br>
+                <span data-uz="ko'ring" data-ru="увидеть" data-en="see">ko'ring</span>
+            </h1>
+            <p data-uz="Blind Vision - bu ko'zi ojiz insonlar uchun maxsus ishlab chiqilgan aqlli ko'zoynak. Atrof-muhitni tanish, pul birliklarini aniqlash va matnlarni o'qish imkoniyati."
+               data-ru="Blind Vision - это умные очки, специально разработанные для слепых людей. Распознавание окружения, определение валют и чтение текстов."
+               data-en="Blind Vision is smart glasses specially designed for blind people. Environment recognition, currency detection, and text reading capabilities.">
+                Blind Vision - bu ko'zi ojiz insonlar uchun maxsus ishlab chiqilgan aqlli ko'zoynak. Atrof-muhitni tanish, pul birliklarini aniqlash va matnlarni o'qish imkoniyati.
+            </p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary" data-uz="Mahsulotlarni ko'rish" data-ru="Посмотреть продукты" data-en="View Products">Mahsulotlarni ko'rish</a>
+                <a href="#survey" class="btn btn-outline" data-uz="So'rovnomadan o'tish" data-ru="Пройти опрос" data-en="Take Survey">So'rovnomadan o'tish</a>
             </div>
-            <div class="hero-image">
-                <div class="glasses-img">
-                    <i class="fas fa-glasses" style="font-size: 300px; opacity: 0.9;"></i>
-                </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://raw.githubusercontent.com/rahmonovshaxzod11/blindvision/master/logo_blindvision.jpg" alt="Blind Vision Glasses">
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" id="video">
+        <h2 class="section-title" data-uz="Ko'zoynakni amalda ko'ring" data-ru="Увидеть очки в действии" data-en="See the glasses in action">Ko'zoynakni amalda ko'ring</h2>
+        <p class="section-subtitle" data-uz="Blind Vision smart ko'zoynaklari qanday ishlashini videoda tomosha qiling" data-ru="Посмотрите видео о том, как работают умные очки Blind Vision" data-en="Watch how Blind Vision smart glasses work in this video">Blind Vision smart ko'zoynaklari qanday ishlashini videoda tomosha qiling</p>
+        
+        <div class="video-container">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/fuVSPsswl5U" title="Blind Vision Smart Glasses Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div style="text-align: center; color: #b0b9d6; padding: 20px;">
+                <i class="fas fa-eye" style="color: #4a90e2; margin-right: 10px;"></i>
+                <span data-uz="Ko'zoynak atrof-muhitni qanday taniyotganini ko'rishingiz mumkin" data-ru="Вы можете увидеть, как очки распознают окружающую среду" data-en="You can see how the glasses recognize the environment">Ko'zoynak atrof-muhitni qanday taniyotganini ko'rishingiz mumkin</span>
             </div>
         </div>
     </section>
 
-    <!-- Xususiyatlar bo'limi -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2 class="section-title">Asosiy Xususiyatlar</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h3>Atrof-muhitni Tanish</h3>
-                    <p>Atrof-muhitdagi odamlar, ob'ektlar, zinapoyalar, eshiklar va to'siqlarni tanib oladi va audio orqali ogohlantiradi.</p>
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <h2 class="section-title" data-uz="Mahsulot versiyalari" data-ru="Версии продукта" data-en="Product Versions">Mahsulot versiyalari</h2>
+        <p class="section-subtitle" data-uz="Sizning ehtiyojingizga mos 3 xil versiya" data-ru="3 разные версии для ваших потребностей" data-en="3 different versions for your needs">Sizning ehtiyojingizga mos 3 xil versiya</p>
+        
+        <div class="product-grid">
+            <!-- Version 1 -->
+            <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-eye"></i>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-traffic-light"></i>
-                    </div>
-                    <h3>Svetafor Ranglarini Ajratish</h3>
-                    <p>Svetafor ranglarini tanib, foydalanuvchiga xabar beradi. Qizil, sariq va yashil ranglarni aniqlay oladi.</p>
+                <h3 data-uz="Blind Vision Basic" data-ru="Blind Vision Basic" data-en="Blind Vision Basic">Blind Vision Basic</h3>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> <span data-uz="Atrof-muhitdagi obyektlarni tanish" data-ru="Распознавание объектов в окружении" data-en="Environment object recognition">Atrof-muhitdagi obyektlarni tanish</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="Odamlarni aniqlash" data-ru="Определение людей" data-en="People detection">Odamlarni aniqlash</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="Naqd pullarni tanish" data-ru="Распознавание наличных" data-en="Cash recognition">Naqd pullarni tanish</span></li>
+                </ul>
+                <div class="product-price">$400 <span>/ dona</span></div>
+                <a href="#survey" class="btn btn-outline" style="width: 100%; text-align: center;" data-uz="Buyurtma berish" data-ru="Заказать" data-en="Order Now">Buyurtma berish</a>
+            </div>
+
+            <!-- Version 2 -->
+            <div class="product-card">
+                <div class="product-badge" data-uz="O'qish uchun" data-ru="Для чтения" data-en="For reading">O'qish uchun</div>
+                <div class="product-icon">
+                    <i class="fas fa-book-open"></i>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-book-reader"></i>
-                    </div>
-                    <h3>Matn O'qish</h3>
-                    <p>Kitoblar, jurnallar, bannerlar, yozuvlar va hattoki telefon yoki kompyuter ekranidagi matnlarni o'qiydi.</p>
+                <h3 data-uz="Blind Vision Reader" data-ru="Blind Vision Reader" data-en="Blind Vision Reader">Blind Vision Reader</h3>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> <span data-uz="Kitob va elektron yozuvlarni o'qish" data-ru="Чтение книг и электронных текстов" data-en="Read books and electronic texts">Kitob va elektron yozuvlarni o'qish</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="Matnni ovozga aylantirish" data-ru="Преобразование текста в речь" data-en="Text-to-speech conversion">Matnni ovozga aylantirish</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="30+ tilni qo'llab-quvvatlash" data-ru="Поддержка 30+ языков" data-en="30+ languages support">30+ tilni qo'llab-quvvatlash</span></li>
+                </ul>
+                <div class="product-price">$400 <span>/ dona</span></div>
+                <a href="#survey" class="btn btn-outline" style="width: 100%; text-align: center;" data-uz="Buyurtma berish" data-ru="Заказать" data-en="Order Now">Buyurtma berish</a>
+            </div>
+
+            <!-- Version 3 -->
+            <div class="product-card">
+                <div class="product-badge" data-uz="Premium" data-ru="Премиум" data-en="Premium">Premium</div>
+                <div class="product-icon">
+                    <i class="fas fa-crown"></i>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Pulni Tanish</h3>
-                    <p>Turli valyutadagi pul banknotlarini tanib, qiymatini audio orqali aytib beradi. To'lov jarayonini osonlashtiradi.</p>
-                </div>
+                <h3 data-uz="Blind Vision Full" data-ru="Blind Vision Full" data-en="Blind Vision Full">Blind Vision Full</h3>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> <span data-uz="Barcha Basic funksiyalari" data-ru="Все функции Basic" data-en="All Basic features">Barcha Basic funksiyalari</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="Barcha Reader funksiyalari" data-ru="Все функции Reader" data-en="All Reader features">Barcha Reader funksiyalari</span></li>
+                    <li><i class="fas fa-check"></i> <span data-uz="Yozuv va obyektlarni bir vaqtda tanish" data-ru="Одновременное распознавание текста и объектов" data-en="Simultaneous text and object recognition">Yozuv va obyektlarni bir vaqtda tanish</span></li>
+                </ul>
+                <div class="product-price">$600 <span>/ dona</span></div>
+                <a href="#survey" class="btn btn-primary" style="width: 100%; text-align: center;" data-uz="Buyurtma berish" data-ru="Заказать" data-en="Order Now">Buyurtma berish</a>
             </div>
         </div>
     </section>
 
-    <!-- Versiyalar bo'limi -->
-    <section class="versions" id="versions">
-        <div class="container">
-            <h2 class="section-title">Versiyalar</h2>
-            <div class="versions-grid">
-                <div class="version-card">
-                    <div class="version-header" style="background-color: #1a73e8;">
-                        <h3>Basic</h3>
-                        <p>Asosiy xususiyatlar</p>
-                    </div>
-                    <ul class="version-features">
-                        <li>Atrof-muhit ob'ektlarini tanib olish</li>
-                        <li>Svetafor ranglarini ajratish</li>
-                        <li>Zinapoyalar va to'siqlar haqida ogohlantirish</li>
-                        <li>Ovozli navigatsiya</li>
-                        <li>8 soatlik batareya quvvati</li>
-                    </ul>
+    <!-- Survey Section -->
+    <section class="survey" id="survey">
+        <div class="survey-container">
+            <h2 class="section-title" style="font-size: 36px; margin-bottom: 40px;" data-uz="So'rovnoma" data-ru="Анкета" data-en="Survey">So'rovnoma</h2>
+            
+            <form id="surveyForm">
+                <!-- Ism -->
+                <div class="form-group">
+                    <label data-uz="To'liq ismingiz" data-ru="Полное имя" data-en="Full Name">To'liq ismingiz</label>
+                    <input type="text" id="name" required placeholder="Aliyev Alisher">
                 </div>
-                
-                <div class="version-card">
-                    <div class="version-header" style="background-color: #34a853;">
-                        <h3>Pro</h3>
-                        <p>To'lov tizimi bilan</p>
-                    </div>
-                    <ul class="version-features">
-                        <li>Basic versiyaning barcha xususiyatlari</li>
-                        <li>Pul banknotlarini tanib olish</li>
-                        <li>30 dan ortiq valyutani taniydi</li>
-                        <li>To'lovni tekshirish tizimi</li>
-                        <li>10 soatlik batareya quvvati</li>
-                    </ul>
-                </div>
-                
-                <div class="version-card">
-                    <div class="version-header" style="background-color: #ea4335;">
-                        <h3>Education</h3>
-                        <p>Ta'lim uchun</p>
-                    </div>
-                    <ul class="version-features">
-                        <li>Pro versiyaning barcha xususiyatlari</li>
-                        <li>Matnlarni o'qish va audio formatga o'tkazish</li>
-                        <li>Telefon/kompyuter ekranidagi matnlarni o'qish</li>
-                        <li>20 tilni qo'llab-quvvatlaydi</li>
-                        <li>12 soatlik batareya quvvati</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Video demo bo'limi -->
-    <section class="demo" id="demo">
-        <div class="container demo-container">
-            <div class="demo-video">
-            <!-- Oddiy video pleer -->
-            <video id="myVideo" width="100%" controls poster="video-poster.jpg">
-                <source src="demo-video.mp4" type="video/mp4">
-                <source src="demo-video.webm" type="video/webm">
-                Sizning brauzeringiz video formatini qo'llab-quvvatlamaydi.
-            </video>
-        </div>
-            <div class="demo-text">
-                <h2 class="section-title" style="text-align: left;">Qanday Ishlaydi</h2>
-                <p>Blind Vision kamera va quloqchinlardan iborat. Kamera atrof-muhitni kuzatib turib, AI tizimi tasvirlarni tahlil qiladi va natijani audio shaklda foydalanuvchiga yetkazadi.</p>
-                <p>Tizim offline ham ishlay oladi, internet talab qilmaydi. Barcha hisoblash jarayonlari ko'zoynakdagi mikroprotsessorda amalga oshiriladi.</p>
-                <a href="#contact" class="cta-button" style="margin-top: 20px;">Demo so'rab qoldiring</a>
-            </div>
-        </div>
-    </section>
+                <!-- Yosh va Jinsi -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label data-uz="Yoshingiz" data-ru="Возраст" data-en="Age">Yoshingiz</label>
+                        <input type="number" id="age" required placeholder="25">
+                    </div>
+                    <div class="form-group">
+                        <label data-uz="Jinsingiz" data-ru="Пол" data-en="Gender">Jinsingiz</label>
+                        <select id="gender" required>
+                            <option value="erkak" data-uz="Erkak" data-ru="Мужской" data-en="Male">Erkak</option>
+                            <option value="ayol" data-uz="Ayol" data-ru="Женский" data-en="Female">Ayol</option>
+                        </select>
+                    </div>
+                </div>
 
-    <!-- Qanday ishlashi bo'limi -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="container">
-            <h2 class="section-title">Qanday Ishlasin</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h4>Kamera orqali tasvir olish</h4>
-                    <p>Ko'zoynakdagi kamera atrof-muhitni doimiy ravishda kuzatib turib, tasvirlarni qayta ishlash uchun yuboradi.</p>
+                <!-- Yashash joyi -->
+                <div class="form-group">
+                    <label data-uz="Yashash joyingiz (shahar, tuman)" data-ru="Место проживания (город, район)" data-en="Location (city, district)">Yashash joyingiz (shahar, tuman)</label>
+                    <input type="text" id="location" required placeholder="Toshkent shahar, Chilonzor tumani">
                 </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h4>AI tizimi tahlil qiladi</h4>
-                    <p>Sun'iy intellekt tasvirdagi ob'ektlarni aniqlaydi va ular haqida ma'lumot tayyorlaydi.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h4>Matnni audio formatga o'tkazish</h4>
-                    <p>Tahlil qilingan ma'lumot matn shaklida audio formatga o'tkaziladi.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h4>Quloqchinlar orqali yetkazish</h4>
-                    <p>Tayyor audio foydalanuvchiga quloqchinlar orqali yetkaziladi.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Call to action bo'limi -->
-    <section class="cta-section" id="contact">
-        <div class="container">
-            <h2>Blind Visionni Sotib Oling</h2>
-            <p>Ko'zi ojiz yoki zaif ko'ruvchi sevgan insoningiz uchun mustaqillik sovg'asini qiling. Biz bilan bog'laning va bepul demo dars o'tkazamiz.</p>
-            <a href="#contact-form" class="cta-button">Bepul Konsultatsiya</a>
+                <!-- Ko'rish darajasi -->
+                <div class="form-group">
+                    <label data-uz="Ko'rish qobiliyatingiz" data-ru="Ваше зрение" data-en="Vision condition">Ko'rish qobiliyatingiz</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="vision" value="butkul" required> <span data-uz="Butkul ko'rmaydi" data-ru="Полностью не видит" data-en="Completely blind">Butkul ko'rmaydi</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="vision" value="qisman" required> <span data-uz="Qisman ko'radi" data-ru="Частично видит" data-en="Partially sighted">Qisman ko'radi</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Narx haqida fikr -->
+                <div class="form-group">
+                    <label data-uz="Narx sizga maqulmi?" data-ru="Устраивает ли вас цена?" data-en="Is the price acceptable?">Narx sizga maqulmi?</label>
+                    <div class="price-options">
+                        <label class="price-option">
+                            <input type="radio" name="price" value="qimmat" required>
+                            <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
+                            <div data-uz="Qimmat" data-ru="Дорого" data-en="Expensive">Qimmat</div>
+                        </label>
+                        <label class="price-option">
+                            <input type="radio" name="price" value="qulay" required>
+                            <i class="fas fa-check-circle" style="color: #4a90e2;"></i>
+                            <div data-uz="Qulay" data-ru="Доступно" data-en="Affordable">Qulay</div>
+                        </label>
+                        <label class="price-option">
+                            <input type="radio" name="price" value="boshqa" required>
+                            <i class="fas fa-question-circle" style="color: #feca57;"></i>
+                            <div data-uz="Boshqa fikr" data-ru="Другое мнение" data-en="Other opinion">Boshqa fikr</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sotib olishga tayyorlik -->
+                <div class="form-group">
+                    <label data-uz="Sotib olishga tayyormisiz?" data-ru="Готовы ли вы купить?" data-en="Are you ready to purchase?">Sotib olishga tayyormisiz?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="ready" value="ha" required> <span data-uz="Ha" data-ru="Да" data-en="Yes">Ha</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ready" value="yoq" required> <span data-uz="Yo'q" data-ru="Нет" data-en="No">Yo'q</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ready" value="oylanyapman" required> <span data-uz="O'ylanyapman" data-ru="Думаю" data-en="Thinking">O'ylanyapman</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Qo'shimcha izoh -->
+                <div class="form-group">
+                    <label data-uz="Qo'shimcha izoh (ixtiyoriy)" data-ru="Дополнительный комментарий (необязательно)" data-en="Additional comments (optional)">Qo'shimcha izoh (ixtiyoriy)</label>
+                    <textarea id="comment" rows="4" placeholder="Fikr va takliflaringiz..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" data-uz="Yuborish" data-ru="Отправить" data-en="Submit">Yuborish</button>
+            </form>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Blind Vision</h3>
-                    <p>Ko'zi ojiz va zaif ko'ruvchi insonlarga mustaqillik va yangi imkoniyatlar beruvchi texnologik yechim.</p>
-                    <div style="margin-top: 20px;">
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-telegram"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Tez Havolalar</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Asosiy</a></li>
-                        <li><a href="#features">Xususiyatlar</a></li>
-                        <li><a href="#versions">Versiyalar</a></li>
-                        <li><a href="#demo">Demo Video</a></li>
-                        <li><a href="#how-it-works">Qanday Ishlasin</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Aloqa Ma'lumotlari</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Samarqamd viloyati Samarqand shahar</li>
-                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +998 886115686</li>
-                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> info@bldvision.uz</li>
-                        <li><i class="fas fa-clock" style="margin-right: 10px;"></i> Dushanba - Juma, 9:00 - 18:00</li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Yangiliklarga Obuna Bo'ling</h3>
-                    <p>Yangi xususiyatlar va chegirmalar haqida birinchi bo'lib biling.</p>
-                    <form id="subscribeForm" style="margin-top: 15px;">
-                        <input type="email" placeholder="Email manzilingiz" style="width: 100%; padding: 12px; border-radius: 5px; border: none; margin-bottom: 10px;">
-                        <button type="submit" class="cta-button" style="width: 100%; padding: 12px;">Obuna bo'lish</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2026 Blind Vision. Barcha huquqlar himoyalangan.</p>
-            </div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
+        <p style="color: #b0b9d6;">&copy; 2026 Blind Vision. Barcha huquqlar himoyalangan.</p>
     </footer>
 
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fas fa-check-circle"></i>
+            <h3 data-uz="So'rovnomangiz qabul qilindi!" data-ru="Ваша анкета принята!" data-en="Your survey has been received!">So'rovnomangiz qabul qilindi!</h3>
+            <p data-uz="Tez orada siz bilan bog'lanamiz" data-ru="Мы скоро свяжемся с вами" data-en="We will contact you soon">Tez orada siz bilan bog'lanamiz</p>
+            <button class="modal-btn" onclick="closeModal()" data-uz="Yopish" data-ru="Закрыть" data-en="Close">Yopish</button>
+        </div>
+    </div>
+
     <script>
-        // Mobil menyuni boshqarish
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            if (navMenu.classList.contains('active')) {
-                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-        
-        // Navbar linklarini bosganda mobil menyuni yopish
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        // Language switching functionality
+        let currentLang = 'uz';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
-        });
-        
-        // Yumshoq scroll effekti
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+            event.target.classList.add('active');
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-uz]').forEach(element => {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    if (element.placeholder) {
+                        element.placeholder = element.getAttribute(`data-${lang}`);
+                    }
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = element.getAttribute(`data-${lang}`);
+                } else {
+                    element.textContent = element.getAttribute(`data-${lang}`);
                 }
             });
-        });
-        
-        // Obuna formasi
-        const subscribeForm = document.getElementById('subscribeForm');
-        subscribeForm.addEventListener('submit', function(e) {
+
+            // Update select options
+            document.querySelectorAll('select option').forEach(option => {
+                if (option.hasAttribute(`data-${lang}`)) {
+                    option.textContent = option.getAttribute(`data-${lang}`);
+                }
+            });
+        }
+
+        // Form submission to Google Forms
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
-            if(emailInput.value) {
-                alert('Obunangiz qabul qilindi! Rahmat.');
-                emailInput.value = '';
-            }
-        });
-        
-        // CTA tugmalariga bosganda kontakt bo'limiga o'tish
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                if(this.getAttribute('href') === '#contact' || this.getAttribute('href') === '#contact-form') {
-                    e.preventDefault();
-                    const contactSection = document.getElementById('contact');
-                    window.scrollTo({
-                        top: contactSection.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+
+            // Collect form data
+            const formData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                location: document.getElementById('location').value,
+                vision: document.querySelector('input[name="vision"]:checked').value,
+                price: document.querySelector('input[name="price"]:checked').value,
+                ready: document.querySelector('input[name="ready"]:checked').value,
+                comment: document.getElementById('comment').value,
+                language: currentLang
+            };
+
+            // Google Forms URL (replace with your actual Google Form URL)
+            const googleFormURL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
+
+            // Create form data for Google Forms
+            const formBody = new FormData();
+            
+            // These entry IDs need to be replaced with your actual Google Form entry IDs
+            formBody.append('entry.123456789', formData.name);
+            formBody.append('entry.987654321', formData.age);
+            formBody.append('entry.111111111', formData.gender);
+            formBody.append('entry.222222222', formData.location);
+            formBody.append('entry.333333333', formData.vision);
+            formBody.append('entry.444444444', formData.price);
+            formBody.append('entry.555555555', formData.ready);
+            formBody.append('entry.666666666', formData.comment);
+
+            // Send to Google Forms
+            fetch(googleFormURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formBody
+            })
+            .then(() => {
+                // Show success modal
+                document.getElementById('successModal').style.display = 'flex';
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Xatolik yuz berdi. Iltimos qaytadan urinib ko\'ring.');
             });
         });
-        
-        // Scroll paytida navbar effekti
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-            } else {
-                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
             }
+        }
+
+        // Price option selection highlight
+        document.querySelectorAll('.price-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.price-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
